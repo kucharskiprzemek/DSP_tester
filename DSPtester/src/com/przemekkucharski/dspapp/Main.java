@@ -1,4 +1,4 @@
-package com.przemekkucharski.dspapp1;
+package com.przemekkucharski.dspapp;
 import org.JMathStudio.DataStructure.Vector.Vector;
 import org.JMathStudio.DataStructure.Vector.VectorStack;
 import org.JMathStudio.Exceptions.UnSupportedAudioFormatException;
@@ -13,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Dziala!");
-        AudioDecoder ad1 = new AudioDecoder();//Create an instance of AudioDecoder.
+        AudioDecoder ad1 = new AudioDecoder();//Create an instance of AudioDecoder. 
         AudioDecoder ad2 = new AudioDecoder();
         AudioBuffer data1 = null, data2 = null;
         Scanner in = new Scanner(System.in);
@@ -26,7 +26,7 @@ public class Main {
         try {
             data1 = ad1.decodeAudioData(nazwa1);
             data2 = ad2.decodeAudioData(nazwa2);
-            ///Users/przemekkucharski/Documents/Studia/KISS/MO_Ericpol/wave/test_po_czestotliwosci_zmieniony.wav
+            ///Users/przemekkucharski/Documents/Studia/KISS/MO_Ericpol/wave/test_po_czestotliwosci_zmieniony.wav 
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,11 +43,11 @@ public class Main {
         if (channel1.hasSameLength(channel2)) System.out.println("Dlugosci są identyczne!");
         int zgodne = 0;
         for (int i = 0; i < Math.max(channel1.length(), channel2.length()); i++)
-            {
-                if( (double)channel1.getElement(i)/(double)channel2.getElement(i) > 0.7 && (double)channel1.getElement(i)/(double)channel2.getElement(i) < 1.42) zgodne++;
-            }
-            double zgodnosc = 100 * zgodne / channel1.length();
-            System.out.println("Dane są zgodne w " + zgodnosc + " %");
+        {
+            if( (double)channel1.getElement(i)/(double)channel2.getElement(i) > 0.7 && (double)channel1.getElement(i)/(double)channel2.getElement(i) < 1.42) zgodne++;
+        }
+        double zgodnosc = 100 * zgodne / channel1.length();
+        System.out.println("Dane są zgodne w " + zgodnosc + " %");
 
 
         SignalSpectrum myspect = new SignalSpectrum();
@@ -62,8 +62,8 @@ public class Main {
         double zgodnosc2 = 100 * zgodne / psd1.length();
         System.out.println("Spektra są zgodne w " + zgodnosc2 + " %");
 
-            System.out.println("Finished!");
+        System.out.println("Finished!");
 
-        }
     }
-
+}
+ 

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="API Doc">
+    <CLASSES />
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/../../JMathStudio_Package/API Doc" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>
