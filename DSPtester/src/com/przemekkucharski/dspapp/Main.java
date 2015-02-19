@@ -13,20 +13,27 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Dziala!");
-        AudioDecoder ad1 = new AudioDecoder();//Create an instance of AudioDecoder. 
-        AudioDecoder ad2 = new AudioDecoder();
-        AudioBuffer data1 = null, data2 = null;
         Scanner in = new Scanner(System.in);
-
         String nazwa1, nazwa2;
         System.out.println("ścieżka do oryginalnego pliku:");
         nazwa1 = in.nextLine();
         System.out.println("ścieżka do odebranego pliku:");
         nazwa2 = in.nextLine();
+        // tutaj podalismy sciezki do plikow .wav - oryginalnego i odebranego
+        ///Users/przemekkucharski/Documents/Studia/KISS/MO_Ericpol/wave/test_po_czestotliwosci.wav
+        ///Users/przemekkucharski/Documents/Studia/KISS/MO_Ericpol/wave/test_po_czestotliwosci_zmieniony.wav
+        analyse(nazwa1, nazwa2);
+        System.out.println("Finished!");
+
+    }
+    public static void analyse(String nazwa1, String nazwa2)
+    {
+        AudioDecoder ad1 = new AudioDecoder(); //tworzymy decodery do plików
+        AudioDecoder ad2 = new AudioDecoder();
+        AudioBuffer data1 = null, data2 = null; // i buffery
         try {
             data1 = ad1.decodeAudioData(nazwa1);
             data2 = ad2.decodeAudioData(nazwa2);
-            ///Users/przemekkucharski/Documents/Studia/KISS/MO_Ericpol/wave/test_po_czestotliwosci_zmieniony.wav 
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -36,11 +43,11 @@ public class Main {
             e.printStackTrace();
         }
         System.out.println("Decoding finished succesfully");
-        VectorStack allChannels = data1.accessAudioBuffer();
-        Vector channel1 = allChannels.accessVector(0);
+        VectorStack allChannels = data1.accessAudioBuffer(); // tworzymy stos wektorów dla poszczególnych kanałów
+        Vector channel1 = allChannels.accessVector(0); // i wczytujemy pierwszy - bo mamy jednokanalowy dzwiek
         allChannels = data2.accessAudioBuffer();
         Vector channel2 = allChannels.accessVector(0);
-        if (channel1.hasSameLength(channel2)) System.out.println("Dlugosci są identyczne!");
+        if (channel1.hasSameLength(channel2)) System.out.println("Dlugosci są identyczne!"); // sprawdzamy, czy pliki mają taką samą długość
         int zgodne = 0;
         for (int i = 0; i < Math.max(channel1.length(), channel2.length()); i++)
         {
@@ -48,11 +55,12 @@ public class Main {
         }
         double zgodnosc = 100 * zgodne / channel1.length();
         System.out.println("Dane są zgodne w " + zgodnosc + " %");
-
+        // policzyliśmy zgodność dla raw data
 
         SignalSpectrum myspect = new SignalSpectrum();
         Vector psd1 = myspect.PSD(channel1);
         Vector psd2 = myspect.PSD(channel2);
+        // tutaj zrobiliśmy spektrum mocy dla obydwu sygnałów
 
         zgodne = 0;
         for (int i = 0; i < Math.max(psd1.length(), psd2.length()); i++)
@@ -61,9 +69,7 @@ public class Main {
         }
         double zgodnosc2 = 100 * zgodne / psd1.length();
         System.out.println("Spektra są zgodne w " + zgodnosc2 + " %");
-
-        System.out.println("Finished!");
-
+        // i dla tych spektr policzylismy zgodnosc
     }
 }
  
