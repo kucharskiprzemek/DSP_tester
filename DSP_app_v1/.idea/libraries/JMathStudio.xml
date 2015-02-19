@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="JMathStudio">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../JMathStudio_Package/Bin/JMathStudio.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

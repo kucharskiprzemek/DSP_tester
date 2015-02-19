@@ -1,0 +1,93 @@
+<html>
+<head>
+<title>Main.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { }
+.s2 { color: rgb(0,128,0); font-weight: bold; }
+.s3 { color: rgb(128,128,128); font-style: italic; }
+.s4 { color: rgb(0,0,255); }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+Main.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">package </span><span class="s1">com.przemekkucharski.dspapp1; 
+</span><span class="s0">import </span><span class="s1">org.JMathStudio.DataStructure.Vector.Vector; 
+</span><span class="s0">import </span><span class="s1">org.JMathStudio.DataStructure.Vector.VectorStack; 
+</span><span class="s0">import </span><span class="s1">org.JMathStudio.Exceptions.UnSupportedAudioFormatException; 
+</span><span class="s0">import </span><span class="s1">org.JMathStudio.Interface.AudioInterface.AudioBuffer; 
+</span><span class="s0">import </span><span class="s1">org.JMathStudio.Interface.AudioInterface.AudioDecoder; 
+</span><span class="s0">import </span><span class="s1">org.JMathStudio.SignalToolkit.GeneralTools.SignalSpectrum; 
+</span><span class="s0">import </span><span class="s1">javax.naming.SizeLimitExceededException; 
+</span><span class="s0">import </span><span class="s1">java.io.IOException; 
+</span><span class="s0">import </span><span class="s1">java.util.Scanner; 
+ 
+</span><span class="s0">public class </span><span class="s1">Main { 
+ 
+    </span><span class="s0">public static void </span><span class="s1">main(String[] args) { 
+        System.out.println(</span><span class="s2">&quot;Dziala!&quot;</span><span class="s1">); 
+        AudioDecoder ad1 = </span><span class="s0">new </span><span class="s1">AudioDecoder();</span><span class="s3">//Create an instance of AudioDecoder.</span><span class="s1"> 
+        AudioDecoder ad2 = </span><span class="s0">new </span><span class="s1">AudioDecoder(); 
+        AudioBuffer data1 = </span><span class="s0">null</span><span class="s1">, data2 = </span><span class="s0">null</span><span class="s1">; 
+        Scanner in = </span><span class="s0">new </span><span class="s1">Scanner(System.in); 
+ 
+        String nazwa1, nazwa2; 
+        System.out.println(</span><span class="s2">&quot;ścieżka do oryginalnego pliku:&quot;</span><span class="s1">); 
+        nazwa1 = in.nextLine(); 
+        System.out.println(</span><span class="s2">&quot;ścieżka do odebranego pliku:&quot;</span><span class="s1">); 
+        nazwa2 = in.nextLine(); 
+        </span><span class="s0">try </span><span class="s1">{ 
+            data1 = ad1.decodeAudioData(nazwa1); 
+            data2 = ad2.decodeAudioData(nazwa2); 
+            </span><span class="s3">///Users/przemekkucharski/Documents/Studia/KISS/MO_Ericpol/wave/test_po_czestotliwosci_zmieniony.wav</span><span class="s1"> 
+ 
+        } </span><span class="s0">catch </span><span class="s1">(IOException e) { 
+            e.printStackTrace(); 
+        } </span><span class="s0">catch </span><span class="s1">(SizeLimitExceededException e) { 
+            e.printStackTrace(); 
+        } </span><span class="s0">catch </span><span class="s1">(UnSupportedAudioFormatException e) { 
+            e.printStackTrace(); 
+        } 
+        System.out.println(</span><span class="s2">&quot;Decoding finished succesfully&quot;</span><span class="s1">); 
+        VectorStack allChannels = data1.accessAudioBuffer(); 
+        Vector channel1 = allChannels.accessVector(</span><span class="s4">0</span><span class="s1">); 
+        allChannels = data2.accessAudioBuffer(); 
+        Vector channel2 = allChannels.accessVector(</span><span class="s4">0</span><span class="s1">); 
+        </span><span class="s0">if </span><span class="s1">(channel1.hasSameLength(channel2)) System.out.println(</span><span class="s2">&quot;Dlugosci są identyczne!&quot;</span><span class="s1">); 
+        </span><span class="s0">int </span><span class="s1">zgodne = </span><span class="s4">0</span><span class="s1">; 
+        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s4">0</span><span class="s1">; i &lt; Math.max(channel1.length(), channel2.length()); i++) 
+            { 
+                </span><span class="s0">if</span><span class="s1">( (</span><span class="s0">double</span><span class="s1">)channel1.getElement(i)/(</span><span class="s0">double</span><span class="s1">)channel2.getElement(i) &gt; </span><span class="s4">0.7 </span><span class="s1">&amp;&amp; (</span><span class="s0">double</span><span class="s1">)channel1.getElement(i)/(</span><span class="s0">double</span><span class="s1">)channel2.getElement(i) &lt; </span><span class="s4">1.42</span><span class="s1">) zgodne++; 
+            } 
+            </span><span class="s0">double </span><span class="s1">zgodnosc = </span><span class="s4">100 </span><span class="s1">* zgodne / channel1.length(); 
+            System.out.println(</span><span class="s2">&quot;Dane są zgodne w &quot; </span><span class="s1">+ zgodnosc + </span><span class="s2">&quot; %&quot;</span><span class="s1">); 
+ 
+ 
+        SignalSpectrum myspect = </span><span class="s0">new </span><span class="s1">SignalSpectrum(); 
+        Vector psd1 = myspect.PSD(channel1); 
+        Vector psd2 = myspect.PSD(channel2); 
+ 
+        zgodne = </span><span class="s4">0</span><span class="s1">; 
+        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s4">0</span><span class="s1">; i &lt; Math.max(psd1.length(), psd2.length()); i++) 
+        { 
+            </span><span class="s0">if</span><span class="s1">( (</span><span class="s0">double</span><span class="s1">)psd1.getElement(i)/(</span><span class="s0">double</span><span class="s1">)psd2.getElement(i) &gt; </span><span class="s4">0.7</span><span class="s1">*(</span><span class="s0">double</span><span class="s1">)Math.max(psd1.getElement(i),psd2.getElement(i)) &amp;&amp; (</span><span class="s0">double</span><span class="s1">)psd1.getElement(i)/(</span><span class="s0">double</span><span class="s1">)psd2.getElement(i) &lt; </span><span class="s4">1.42</span><span class="s1">/(</span><span class="s0">double</span><span class="s1">)Math.min(psd1.getElement(i),psd2.getElement(i))) zgodne++; 
+        } 
+        </span><span class="s0">double </span><span class="s1">zgodnosc2 = </span><span class="s4">100 </span><span class="s1">* zgodne / psd1.length(); 
+        System.out.println(</span><span class="s2">&quot;Spektra są zgodne w &quot; </span><span class="s1">+ zgodnosc2 + </span><span class="s2">&quot; %&quot;</span><span class="s1">); 
+ 
+            System.out.println(</span><span class="s2">&quot;Finished!&quot;</span><span class="s1">); 
+ 
+        } 
+    } 
+ 
+</span></pre>
+</body>
+</html>
